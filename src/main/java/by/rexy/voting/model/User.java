@@ -1,7 +1,7 @@
 package by.rexy.voting.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import by.rexy.voting.to.UserTo;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -14,6 +14,9 @@ import java.util.Set;
 @Table(name = "users")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 public class User extends AbstractEntity {
 
     @Column(name = "name", nullable = false)
@@ -44,26 +47,10 @@ public class User extends AbstractEntity {
     @ManyToOne
     private Restaurant votedRestaurant;
 
-    public User() {
-    }
-
-    public User(Integer id, String name, String email, String password, Set<Role> roles, LocalDateTime lastTimeVoted) {
-        super(id);
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.roles = roles;
-        this.lastTimeVoted = lastTimeVoted;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id='" + getId() + '\'' +
-                "name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", roles=" + roles +
-                '}';
+    public User(UserTo userTo) {
+        this.name = userTo.getName();
+        this.email = userTo.getEmail();
+        this.password = userTo.getPassword();
+        this.roles = userTo.getRoles() == null ? Set.of(Role.USER) : userTo.getRoles();
     }
 }

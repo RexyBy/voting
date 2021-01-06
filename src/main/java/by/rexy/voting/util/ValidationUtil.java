@@ -5,7 +5,7 @@ import by.rexy.voting.util.exceptions.NotFoundException;
 
 public class ValidationUtil {
     public static void checkNew(AbstractEntity entity) {
-        if (entity.isNew())
+        if (!entity.isNew())
             throw new IllegalArgumentException(entity + " must be new.");
     }
 

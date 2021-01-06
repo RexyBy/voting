@@ -2,12 +2,14 @@ package by.rexy.voting.web.user;
 
 import by.rexy.voting.model.User;
 import by.rexy.voting.repository.DataJpaUserRepository;
+import by.rexy.voting.to.UserTo;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -33,8 +35,8 @@ public class AdminRestController extends AbstractUserRestController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> createAndGetLocation(@RequestBody User user) {
-        User createdUser = super.create(user);
+    public ResponseEntity<User> createAndGetLocation(@RequestBody @Valid UserTo userTo) {
+        User createdUser = super.create(new User(userTo));
         URI uriOfNewUser = ServletUriComponentsBuilder.fromCurrentRequestUri()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(createdUser.getId())
