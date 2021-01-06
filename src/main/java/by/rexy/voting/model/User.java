@@ -1,6 +1,7 @@
 package by.rexy.voting.model;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -12,6 +13,7 @@ import java.util.Set;
 @Entity
 @Table(name = "users")
 @Getter
+@Setter
 public class User extends AbstractEntity {
 
     @Column(name = "name", nullable = false)

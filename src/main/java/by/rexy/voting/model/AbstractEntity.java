@@ -1,5 +1,6 @@
 package by.rexy.voting.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.Hibernate;
 import org.springframework.data.domain.Persistable;
@@ -31,6 +32,7 @@ public abstract class AbstractEntity implements Persistable<Integer> {
         return id;
     }
 
+    @JsonIgnore
     public boolean isNew() {
         return id == null;
     }

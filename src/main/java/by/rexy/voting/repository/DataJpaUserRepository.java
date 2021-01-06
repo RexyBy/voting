@@ -4,7 +4,6 @@ import by.rexy.voting.model.User;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public class DataJpaUserRepository {
@@ -30,7 +29,7 @@ public class DataJpaUserRepository {
         return repository.findById(id).orElse(null);
     }
 
-    public Optional<User> findByEmailIgnoreCase(String email) {
-        return repository.findByEmailIgnoreCase(email);
+    public User findByEmailIgnoreCase(String email) {
+        return repository.findByEmailIgnoreCase(email).orElse(null);
     }
 }

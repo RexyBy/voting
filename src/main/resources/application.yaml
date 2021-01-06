@@ -37,6 +37,7 @@ logging:
   level:
     root: WARN
     ru.javaops.bootjava: DEBUG
+#    org.springframework.security: DEBUG
 
 server.servlet:
   encoding:

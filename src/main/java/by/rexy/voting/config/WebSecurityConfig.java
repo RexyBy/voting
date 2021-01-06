@@ -19,8 +19,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.Optional;
-
 @Configuration
 @EnableWebSecurity
 @Slf4j
@@ -34,9 +32,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public UserDetailsService userDetailsService() {
         return email -> {
             log.debug("Authenticating '{}'", email);
-            Optional<User> optionalUser = userRepository.findByEmailIgnoreCase(email);
-            return new AuthUser(optionalUser.orElseThrow(
-                    () -> new UsernameNotFoundException("User '" + email + "' was not found")));
+            User user = userRepository.findByEmailIgnoreCase(email);
+            if (user == null) {
+                throw new UsernameNotFoundException("User '" + email + "' was not found");
+            }
+            return new AuthUser(user);
         };
     }
 
@@ -49,9 +49,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/api/account/register").anonymous()
-                .antMatchers("/api/account").hasRole(Role.USER.name())
-                .antMatchers("/api/**").hasRole(Role.ADMIN.name())
+                .antMatchers("/rest/profile/register").anonymous()
+                .antMatchers("/rest/profile/**").authenticated()
+                .antMatchers("/rest/admin/**").hasRole(Role.ADMIN.name())
                 .and().httpBasic()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().csrf().disable();

@@ -1,13 +1,29 @@
 package by.rexy.voting.util;
 
-public class SecurityUtil {
-    private static int authUserId = 100004;
+import by.rexy.voting.AuthUser;
+import lombok.NoArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
-    public static int getAuthUserId() {
-        return authUserId;
+import static java.util.Objects.requireNonNull;
+
+@NoArgsConstructor
+public class SecurityUtil {
+
+    public static AuthUser safeGet() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null) {
+            return null;
+        }
+        Object principal = auth.getPrincipal();
+        return (principal instanceof AuthUser) ? (AuthUser) principal : null;
     }
 
-    public static void setAuthUserId(int id) {
-        authUserId = id;
+    public static AuthUser get() {
+        return requireNonNull(safeGet(), "No authorized user found");
+    }
+
+    public static int getAuthUserId() {
+        return get().id();
     }
 }
