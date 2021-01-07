@@ -1,6 +1,8 @@
 package by.rexy.voting.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -8,9 +10,12 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "dishes")
+@Getter
+@Setter
 public class Dish extends AbstractEntity {
     @Column(name = "name", nullable = false)
     @NotBlank
@@ -20,6 +25,10 @@ public class Dish extends AbstractEntity {
     @Column(name = "price", nullable = false)
     @NotNull
     private Long price;         //price in cents
+
+    @Column(name = "date", nullable = false)
+    @NotNull
+    private LocalDate date;
 
     @ManyToOne
     @JoinColumn(name = "restaurant_id", nullable = false)
@@ -32,22 +41,6 @@ public class Dish extends AbstractEntity {
 
     public Dish(String name, Long price) {
         this.name = name;
-        this.price = price;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public long getPrice() {
-        return price;
-    }
-
-    public void setPrice(Long price) {
         this.price = price;
     }
 }
