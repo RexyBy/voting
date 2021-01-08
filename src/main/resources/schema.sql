@@ -8,9 +8,8 @@ CREATE SEQUENCE GLOBAL_SEQ START WITH 100000;
 
 CREATE TABLE restaurants
 (
-    id    INTEGER DEFAULT nextval('global_seq') PRIMARY KEY,
-    name  VARCHAR(255)      NOT NULL,
-    votes INTEGER DEFAULT 0 NOT NULL
+    id   INTEGER DEFAULT nextval('global_seq') PRIMARY KEY,
+    name VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE users
@@ -34,13 +33,22 @@ CREATE TABLE user_roles
     FOREIGN KEY (user_id) REFERENCES USERS (id) ON DELETE CASCADE
 );
 
-CREATE TABLE dishes
+CREATE TABLE menu
 (
     id            INTEGER DEFAULT nextval('global_seq') PRIMARY KEY,
-    restaurant_id INTEGER      NOT NULL,
-    name          VARCHAR(255) NOT NULL,
-    price         LONG         NOT NULL,
-    date          DATE         NOT NULL,
-    CONSTRAINT dishes_idx UNIQUE (restaurant_id, date, name),
+    restaurant_id INTEGER           NOT NULL,
+    date          DATE              NOT NULL,
+    votes         INTEGER DEFAULT 0 NOT NULL,
+    CONSTRAINT menu_idx UNIQUE (restaurant_id, date),
     FOREIGN KEY (restaurant_id) REFERENCES restaurants (id) ON DELETE CASCADE
+);
+
+CREATE TABLE dishes
+(
+    id      INTEGER DEFAULT nextval('global_seq') PRIMARY KEY,
+    menu_id INTEGER      NOT NULL,
+    name    VARCHAR(255) NOT NULL,
+    price   LONG         NOT NULL,
+    CONSTRAINT dishes_idx UNIQUE (menu_id, name),
+    FOREIGN KEY (menu_id) REFERENCES menu (id) ON DELETE CASCADE
 );

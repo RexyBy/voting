@@ -1,6 +1,5 @@
 package by.rexy.voting.web.restaurant;
 
-
 import by.rexy.voting.model.Restaurant;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,12 +16,22 @@ public class RestaurantProfileRestController extends AbstractRestaurantControlle
     static final String REST_URL = "/rest/profile/restaurants";
 
     @GetMapping
-    public List<Restaurant> getAllForDate() {
+    public List<Restaurant> getAllForCurrentDate() {
         return super.getAllForDate(getCurrentDate());
     }
 
     @GetMapping("/{id}")
-    public Restaurant get(@PathVariable int id) {
+    public Restaurant getOneForCurrentDate(@PathVariable int id) {
+        return super.getOneForDate(id, getCurrentDate());
+    }
+
+    @GetMapping("/history")
+    public List<Restaurant> getAll() {
+        return super.getAll();
+    }
+
+    @GetMapping("/history/{id}")
+    public Restaurant getOne(@PathVariable int id) {
         return super.get(id);
     }
 

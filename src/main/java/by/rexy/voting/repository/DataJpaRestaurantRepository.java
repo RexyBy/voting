@@ -1,6 +1,5 @@
 package by.rexy.voting.repository;
 
-
 import by.rexy.voting.model.Restaurant;
 import org.springframework.stereotype.Repository;
 
@@ -24,7 +23,11 @@ public class DataJpaRestaurantRepository {
     }
 
     public Restaurant get(int id) {
-        return repository.findById(id).orElse(null);
+        return repository.get(id);
+    }
+
+    public Restaurant getOneForDate(int id, LocalDate date) {
+        return repository.getOneForDate(id, date);
     }
 
     public Restaurant save(Restaurant restaurant) {

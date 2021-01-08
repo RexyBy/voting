@@ -10,7 +10,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "dishes")
@@ -26,21 +25,12 @@ public class Dish extends AbstractEntity {
     @NotNull
     private Long price;         //price in cents
 
-    @Column(name = "date", nullable = false)
-    @NotNull
-    private LocalDate date;
-
     @ManyToOne
-    @JoinColumn(name = "restaurant_id", nullable = false)
+    @JoinColumn(name = "menu_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonBackReference
-    private Restaurant restaurant;
+    private Menu menu;
 
     public Dish() {
-    }
-
-    public Dish(String name, Long price) {
-        this.name = name;
-        this.price = price;
     }
 }

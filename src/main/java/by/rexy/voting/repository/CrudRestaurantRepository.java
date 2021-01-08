@@ -1,6 +1,5 @@
 package by.rexy.voting.repository;
 
-
 import by.rexy.voting.model.Restaurant;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,7 +19,15 @@ public interface CrudRestaurantRepository extends JpaRepository<Restaurant, Inte
     int delete(@Param("id") int id);
 
     //    https://stackoverflow.com/a/46013654/548473
-    @EntityGraph(attributePaths = {"menu"}, type = EntityGraph.EntityGraphType.LOAD)
-    @Query("SELECT r FROM Restaurant r JOIN FETCH r.menu d WHERE d.date=:date")
+    @EntityGraph(attributePaths = {"menus"}, type = EntityGraph.EntityGraphType.LOAD)
+    @Query("SELECT r FROM Restaurant r JOIN FETCH r.menus m WHERE m.date=:date")
     List<Restaurant> getAllForDate(@Param("date") LocalDate date);
+
+    @EntityGraph(attributePaths = {"menus"}, type = EntityGraph.EntityGraphType.LOAD)
+    @Query("SELECT r FROM Restaurant r JOIN FETCH r.menus m WHERE r.id=:id AND m.date=:date")
+    Restaurant getOneForDate(@Param("id") int id, @Param("date") LocalDate date);
+
+    @EntityGraph(attributePaths = {"menus"}, type = EntityGraph.EntityGraphType.LOAD)
+    @Query("SELECT r FROM Restaurant r JOIN FETCH r.menus m WHERE r.id=:id")
+    Restaurant get(@Param("id") int id);
 }

@@ -23,7 +23,7 @@ public abstract class AbstractRestaurantController {
         return repository.getAll();
     }
 
-    public List<Restaurant> getAllForDate(LocalDate date){
+    public List<Restaurant> getAllForDate(LocalDate date) {
         log.info("get all restaurants menu for date {}", date);
         return repository.getAllForDate(date);
     }
@@ -31,6 +31,11 @@ public abstract class AbstractRestaurantController {
     public Restaurant get(int id) {
         log.info("get restaurant with id {}", id);
         return ValidationUtil.checkNotFoundWithId(repository.get(id), id);
+    }
+
+    public Restaurant getOneForDate(int id, LocalDate date) {
+        log.info("get restaurant with id {} for date {}", id, date);
+        return ValidationUtil.checkNotFoundWithId(repository.getOneForDate(id, date), id);
     }
 
     public void create(Restaurant restaurant) {

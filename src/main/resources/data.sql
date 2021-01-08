@@ -8,10 +8,10 @@ DELETE
 FROM restaurants;
 ALTER SEQUENCE global_seq RESTART WITH 100000;
 
-INSERT INTO restaurants (name, votes)
-VALUES ('Friends', 0),
-       ('Best meals', 0),
-       ('Sushi Vesla', 1);
+INSERT INTO restaurants (name)
+VALUES ('Friends'),
+       ('Best meals'),
+       ('Sushi Vesla');
 
 INSERT INTO users (name, email, password, last_time_voted, VOTED_RESTAURANT_ID)
 VALUES ('User', 'user@yandex.ru', '{noop}password', '2020-12-22 15:00', 100002),
@@ -21,20 +21,26 @@ INSERT INTO user_roles (role, user_id)
 VALUES ('USER', 100003),
        ('ADMIN', 100004);
 
+INSERT INTO menu (restaurant_id, date, votes)
+VALUES ('100000', '2021-01-08', 0),
+       ('100001', '2021-01-08', 2),
+       ('100001', '2020-12-22', 0),
+       ('100002', '2021-01-08', 3),
+       ('100002', '2020-12-23', 0);
 
-INSERT INTO dishes (restaurant_id, name, price, date)
-VALUES ('100000', 'Potato pancakes', 500, '2021-01-07'),
-       ('100000', 'Meal soup', 300, '2021-01-07'),
-       ('100000', 'Olivie', 100, '2021-01-07'),
-       ('100001', 'Steak', 1000, '2021-01-07'),
-       ('100001', 'Borscht', 500, '2021-01-07'),
-       ('100001', 'Caesar salad', 500, '2021-01-07'),
-       ('100001', 'Steak', 1000, '2020-12-22'),
-       ('100001', 'Borscht', 500, '2020-12-22'),
-       ('100001', 'Caesar salad', 500, '2020-12-22'),
-       ('100002', 'Philadelphia', 1500, '2021-01-07'),
-       ('100002', 'Tom yam', 1000, '2021-01-07'),
-       ('100002', 'Fish salad', 500, '2021-01-07'),
-       ('100002', 'Philadelphia', 1500, '2020-12-23'),
-       ('100002', 'Tom yam', 1000, '2020-12-23'),
-       ('100002', 'Fish salad', 500, '2020-12-23');
+INSERT INTO dishes (menu_id, name, price)
+VALUES ('100005', 'Potato pancakes', 500),
+       ('100005', 'Meal soup', 300),
+       ('100005', 'Olivie', 100),
+       ('100006', 'Steak', 1000),
+       ('100006', 'Borscht', 500),
+       ('100006', 'Caesar salad', 500),
+       ('100007', 'Steak', 1000),
+       ('100007', 'Borscht', 500),
+       ('100007', 'Caesar salad', 500),
+       ('100008', 'Philadelphia', 1500),
+       ('100008', 'Tom yam', 1000),
+       ('100008', 'Fish salad', 500),
+       ('100009', 'Philadelphia', 1500),
+       ('100009', 'Tom yam', 1000),
+       ('100009', 'Fish salad', 500);
