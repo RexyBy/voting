@@ -38,11 +38,11 @@ public abstract class AbstractRestaurantController {
         return ValidationUtil.checkNotFoundWithId(repository.getOneForDate(id, date), id);
     }
 
-    public void create(Restaurant restaurant) {
+    public Restaurant create(Restaurant restaurant) {
         Assert.notNull(restaurant, "restaurant must not be null");
         ValidationUtil.checkNew(restaurant);
         log.info("create {}", restaurant);
-        repository.save(restaurant);
+        return repository.save(restaurant);
     }
 
     public void update(Restaurant restaurant, int id) {
