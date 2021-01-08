@@ -4,18 +4,18 @@ package by.rexy.voting.web.restaurant;
 import by.rexy.voting.model.Restaurant;
 import by.rexy.voting.repository.DataJpaRestaurantRepository;
 import by.rexy.voting.util.ValidationUtil;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
 
 import java.time.LocalDate;
 import java.util.List;
 
+@AllArgsConstructor
 public abstract class AbstractRestaurantController {
-    protected final Logger log = LoggerFactory.getLogger(getClass());
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
-    @Autowired
     private DataJpaRestaurantRepository repository;
 
     public List<Restaurant> getAll() {

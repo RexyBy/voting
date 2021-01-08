@@ -1,6 +1,7 @@
 package by.rexy.voting.web.restaurant;
 
 import by.rexy.voting.model.Restaurant;
+import by.rexy.voting.repository.DataJpaRestaurantRepository;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -14,9 +15,13 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping(RestaurantAdminRestController.REST_URL)
+@RequestMapping(value = RestaurantAdminRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class RestaurantAdminRestController extends AbstractRestaurantController {
     static final String REST_URL = "/rest/admin/restaurants";
+
+    public RestaurantAdminRestController(DataJpaRestaurantRepository repository) {
+        super(repository);
+    }
 
     @GetMapping
     public List<Restaurant> getAllForDate(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
@@ -40,7 +45,7 @@ public class RestaurantAdminRestController extends AbstractRestaurantController 
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Restaurant> createAndGetLocation(@RequestBody @Valid Restaurant restaurant){
+    public ResponseEntity<Restaurant> createAndGetLocation(@RequestBody @Valid Restaurant restaurant) {
         Restaurant createdRestaurant = super.create(restaurant);
         URI createdRestaurantUri = ServletUriComponentsBuilder.fromCurrentRequestUri()
                 .path(REST_URL + "/{id}")
@@ -52,14 +57,14 @@ public class RestaurantAdminRestController extends AbstractRestaurantController 
     @Override
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@RequestBody @Valid Restaurant restaurant, @PathVariable int id){
+    public void update(@RequestBody @Valid Restaurant restaurant, @PathVariable int id) {
         super.update(restaurant, id);
     }
 
     @Override
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable int id){
+    public void delete(@PathVariable int id) {
         super.delete(id);
     }
 }
