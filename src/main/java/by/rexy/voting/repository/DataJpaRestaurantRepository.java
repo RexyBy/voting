@@ -26,6 +26,10 @@ public class DataJpaRestaurantRepository {
         return repository.get(id);
     }
 
+    public Restaurant getProxy(int id) {
+        return repository.getOne(id);
+    }
+
     public Restaurant getOneForDate(int id, LocalDate date) {
         return repository.getOneForDate(id, date);
     }

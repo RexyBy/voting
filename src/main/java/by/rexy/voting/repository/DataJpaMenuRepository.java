@@ -12,12 +12,16 @@ import java.util.List;
 public class DataJpaMenuRepository {
     private CrudMenuRepository repository;
 
-    public Menu getById(int id) {
+    public Menu getProxy(int id) {
         return repository.getOne(id);
     }
 
     public List<Menu> getAll() {
         return repository.findAll();
+    }
+
+    public List<Menu> getAllOnDate(LocalDate date) {
+        return repository.getAllOnDate(date);
     }
 
     public List<Menu> getAllForRestaurantOnDate(int restaurantId, LocalDate date) {
@@ -50,5 +54,9 @@ public class DataJpaMenuRepository {
 
     public boolean withdrawVote(int menuId) {
         return repository.withdrawVote(menuId) != 0;
+    }
+
+    public boolean updateVotes(int votes, int menuId) {
+        return repository.updateVotes(votes, menuId) != 0;
     }
 }

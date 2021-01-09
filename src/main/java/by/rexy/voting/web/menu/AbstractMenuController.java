@@ -30,6 +30,11 @@ public abstract class AbstractMenuController {
         return menuRepository.getAll();
     }
 
+    public List<Menu> getAllOnDate(LocalDate date) {
+        log.info("get all menus on date {}", date);
+        return menuRepository.getAllOnDate(date);
+    }
+
     public List<Menu> getAllForRestaurantOnDate(int restaurantId, LocalDate date) {
         log.info("get all menus for restaurant id {} on date {}", restaurantId, date);
         return menuRepository.getAllForRestaurantOnDate(restaurantId, date);
@@ -51,16 +56,23 @@ public abstract class AbstractMenuController {
                 menuRepository.getOneForRestaurantOnDate(restaurantId, date, id), id);
     }
 
-    public Menu create(Menu menu) {
+    @Transactional
+    public Menu create(Menu menu, int restaurantId) {
         log.info("create menu {}", menu);
-        Assert.notNull(menu, "user mustn't be null");
+        Assert.notNull(menu, "menu mustn't be null");
         ValidationUtil.checkNew(menu);
+        Restaurant restaurant = ValidationUtil.checkNotFoundWithId(restaurantRepository.getProxy(restaurantId), restaurantId);
+        menu.setRestaurant(restaurant);
         return menuRepository.save(menu);
     }
 
+    @Transactional
     public void update(Menu menu, int id) {
         Assert.notNull(menu, "menu mustn't be null");
         ValidationUtil.assureIdConsistent(menu, id);
+        Menu oldMenu = ValidationUtil.checkNotFoundWithId(menuRepository.getProxy(id), id);
+        menu.setRestaurant(oldMenu.getRestaurant());
+        menu.setDishes(oldMenu.getDishes());
         log.info("update menu with id {}", id);
         menuRepository.save(menu);
     }
@@ -68,6 +80,10 @@ public abstract class AbstractMenuController {
     public void delete(int id) {
         log.info("delete menu with id {}", id);
         ValidationUtil.checkNotFoundWithId(menuRepository.delete(id), id);
+    }
+
+    public void setVotes(int id, int votes) {
+        ValidationUtil.checkNotFoundWithId(menuRepository.updateVotes(votes, id), id);
     }
 
     @Transactional
@@ -90,6 +106,6 @@ public abstract class AbstractMenuController {
         user.setLastTimeVoted(LocalDateTime.now());
         user.setVotedRestaurant(restaurant);
         userRepository.save(user);
-        menuRepository.vote(id);
+        ValidationUtil.checkNotFoundWithId(menuRepository.vote(id), id);
     }
 }

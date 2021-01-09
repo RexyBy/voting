@@ -25,6 +25,7 @@ public class Menu extends AbstractEntity {
     @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonBackReference
+    @NotNull
     private Restaurant restaurant;
 
     @Column(name = "date", nullable = false)
