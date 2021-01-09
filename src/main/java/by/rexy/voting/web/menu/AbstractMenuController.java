@@ -68,12 +68,12 @@ public abstract class AbstractMenuController {
 
     @Transactional
     public void update(Menu menu, int id) {
+        log.info("update menu with id {}", id);
         Assert.notNull(menu, "menu mustn't be null");
         ValidationUtil.assureIdConsistent(menu, id);
-        Menu oldMenu = ValidationUtil.checkNotFoundWithId(menuRepository.getProxy(id), id);
+        Menu oldMenu = menuRepository.getProxy(id);
         menu.setRestaurant(oldMenu.getRestaurant());
         menu.setDishes(oldMenu.getDishes());
-        log.info("update menu with id {}", id);
         menuRepository.save(menu);
     }
 
