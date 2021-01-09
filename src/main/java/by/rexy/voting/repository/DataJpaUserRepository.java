@@ -14,7 +14,7 @@ public class DataJpaUserRepository {
     }
 
     public List<User> getAll() {
-        return repository.findAll();
+        return repository.getAll();
     }
 
     public User save(User user) {
@@ -26,7 +26,7 @@ public class DataJpaUserRepository {
     }
 
     public User get(int id) {
-        return repository.findById(id).orElse(null);
+        return repository.getOne(id);
     }
 
     public User findByEmailIgnoreCase(String email) {

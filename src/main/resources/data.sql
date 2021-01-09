@@ -22,10 +22,10 @@ VALUES ('USER', 100003),
        ('ADMIN', 100004);
 
 INSERT INTO menu (restaurant_id, date, votes)
-VALUES ('100000', '2021-01-08', 0),
-       ('100001', '2021-01-08', 2),
+VALUES ('100000', current_date, 0),
+       ('100001', current_date, 2),
        ('100001', '2020-12-22', 0),
-       ('100002', '2021-01-08', 3),
+       ('100002', current_date, 3),
        ('100002', '2020-12-23', 0);
 
 INSERT INTO dishes (menu_id, name, price)

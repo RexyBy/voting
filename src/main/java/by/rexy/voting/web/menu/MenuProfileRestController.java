@@ -1,12 +1,14 @@
 package by.rexy.voting.web.menu;
 
+import by.rexy.voting.AuthUser;
 import by.rexy.voting.model.Menu;
 import by.rexy.voting.repository.DataJpaMenuRepository;
+import by.rexy.voting.repository.DataJpaRestaurantRepository;
+import by.rexy.voting.repository.DataJpaUserRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -16,16 +18,29 @@ import java.util.List;
 public class MenuProfileRestController extends AbstractMenuController {
     static final String REST_URL = "/rest/profile/menu";
 
-    public MenuProfileRestController(DataJpaMenuRepository repository) {
-        super(repository);
+    public MenuProfileRestController(DataJpaMenuRepository menuRepository,
+                                     DataJpaRestaurantRepository restaurantRepository,
+                                     DataJpaUserRepository userRepository) {
+        super(menuRepository, restaurantRepository, userRepository);
     }
 
     @GetMapping
-    public List<Menu> getAll(@RequestParam int restaurantId){
-       return super.getAll(restaurantId, getCurrentDate());
+    public List<Menu> getMenuForRestaurantOnDate(@RequestParam int restaurantId) {
+        return super.getAllForRestaurantOnDate(restaurantId, getCurrentDate());
     }
 
-    private LocalDate getCurrentDate(){
+    @GetMapping("/history")
+    public List<Menu> getAllForRestaurant(@RequestParam int restaurantId) {
+        return super.getAllForRestaurant(restaurantId);
+    }
+
+    @PatchMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void vote(@PathVariable int id, @AuthenticationPrincipal AuthUser authUser) {
+        super.vote(id, authUser.getUser());
+    }
+
+    private LocalDate getCurrentDate() {
         return LocalDate.now();
     }
 }

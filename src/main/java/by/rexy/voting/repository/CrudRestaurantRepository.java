@@ -30,4 +30,7 @@ public interface CrudRestaurantRepository extends JpaRepository<Restaurant, Inte
     @EntityGraph(attributePaths = {"menus"}, type = EntityGraph.EntityGraphType.LOAD)
     @Query("SELECT r FROM Restaurant r JOIN FETCH r.menus m WHERE r.id=:id")
     Restaurant get(@Param("id") int id);
+
+    @Query("SELECT r FROM Restaurant r JOIN FETCH r.menus m WHERE m.id=:menuId")
+    Restaurant getByMenuId(@Param("menuId") int menuId);
 }

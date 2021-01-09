@@ -37,4 +37,8 @@ public class DataJpaRestaurantRepository {
     public boolean delete(int id) {
         return repository.delete(id) != 0;
     }
+
+    public Restaurant getOneByMenuId(int menuId) {
+        return repository.getByMenuId(menuId);
+    }
 }
