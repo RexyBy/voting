@@ -2,7 +2,6 @@ package by.rexy.voting.web.user;
 
 import by.rexy.voting.model.User;
 import by.rexy.voting.repository.DataJpaUserRepository;
-import by.rexy.voting.to.UserTo;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

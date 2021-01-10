@@ -1,9 +1,10 @@
 package by.rexy.voting.model;
 
-import by.rexy.voting.to.UserTo;
 import by.rexy.voting.util.JsonDeserializers;
+import by.rexy.voting.util.JsonSerializers;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
 
 import javax.persistence.*;
@@ -49,13 +50,7 @@ public class User extends AbstractEntity {
     @Column(name = "last_time_voted")
     private LocalDateTime lastTimeVoted;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonSerialize(using = JsonSerializers.RestaurantSerializer.class)
     private Restaurant votedRestaurant;
-
-    public User(UserTo userTo) {
-        this.name = userTo.getName();
-        this.email = userTo.getEmail();
-        this.password = userTo.getPassword();
-        this.roles = userTo.getRoles() == null ? Set.of(Role.USER) : userTo.getRoles();
-    }
 }

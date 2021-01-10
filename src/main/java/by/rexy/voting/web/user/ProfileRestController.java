@@ -4,7 +4,6 @@ import by.rexy.voting.AuthUser;
 import by.rexy.voting.model.Role;
 import by.rexy.voting.model.User;
 import by.rexy.voting.repository.DataJpaUserRepository;
-import by.rexy.voting.to.UserTo;
 import by.rexy.voting.util.SecurityUtil;
 import by.rexy.voting.util.ValidationUtil;
 import org.springframework.http.HttpStatus;
@@ -35,8 +34,7 @@ public class ProfileRestController extends AbstractUserRestController {
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@Valid @RequestBody UserTo userTo) {
-        User user = new User(userTo);
+    public void update(@Valid @RequestBody User user) {
         AuthUser authUser = SecurityUtil.safeGet();
         ValidationUtil.assureIdConsistent(user, authUser.id());
         user.setRoles(authUser.getUser().getRoles());
@@ -48,7 +46,7 @@ public class ProfileRestController extends AbstractUserRestController {
     }
 
     @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> register(@RequestBody @Valid User user){
+    public ResponseEntity<User> register(@RequestBody @Valid User user) {
         user.setRoles(Set.of(Role.USER));
         User createdUser = super.create(user);
         URI uriOfNewUser = ServletUriComponentsBuilder.fromCurrentRequestUri()
@@ -60,7 +58,7 @@ public class ProfileRestController extends AbstractUserRestController {
 
     @DeleteMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(){
+    public void delete() {
         super.delete(SecurityUtil.getAuthUserId());
     }
 }

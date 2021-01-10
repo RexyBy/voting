@@ -10,6 +10,8 @@ import by.rexy.voting.util.ValidationUtil;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
@@ -25,21 +27,25 @@ public abstract class AbstractMenuController {
     private DataJpaRestaurantRepository restaurantRepository;
     private DataJpaUserRepository userRepository;
 
+    @Cacheable("menus")
     public List<Menu> getAll() {
         log.info("get all menus");
         return menuRepository.getAll();
     }
 
+    @Cacheable("menus")
     public List<Menu> getAllOnDate(LocalDate date) {
         log.info("get all menus on date {}", date);
         return menuRepository.getAllOnDate(date);
     }
 
+    @Cacheable("menus")
     public List<Menu> getAllForRestaurantOnDate(int restaurantId, LocalDate date) {
         log.info("get all menus for restaurant id {} on date {}", restaurantId, date);
         return menuRepository.getAllForRestaurantOnDate(restaurantId, date);
     }
 
+    @Cacheable("menus")
     public List<Menu> getAllForRestaurant(int restaurantId) {
         log.info("get all menus for restaurant id {}", restaurantId);
         return menuRepository.getAllForRestaurant(restaurantId);
@@ -50,12 +56,7 @@ public abstract class AbstractMenuController {
         return ValidationUtil.checkNotFoundWithId(menuRepository.get(id), id);
     }
 
-    public Menu getOneForDate(int restaurantId, int id, LocalDate date) {
-        log.info("get menu with id {} for restaurant id {} on date {}", id, restaurantId, date);
-        return ValidationUtil.checkNotFoundWithId(
-                menuRepository.getOneForRestaurantOnDate(restaurantId, date, id), id);
-    }
-
+    @CacheEvict(value = "menus", allEntries = true)
     @Transactional
     public Menu create(Menu menu, int restaurantId) {
         log.info("create menu {}", menu);
@@ -66,6 +67,7 @@ public abstract class AbstractMenuController {
         return menuRepository.save(menu);
     }
 
+    @CacheEvict(value = "menus", allEntries = true)
     @Transactional
     public void update(Menu menu, int id) {
         log.info("update menu with id {}", id);
@@ -77,15 +79,18 @@ public abstract class AbstractMenuController {
         menuRepository.save(menu);
     }
 
+    @CacheEvict(value = "menus", allEntries = true)
     public void delete(int id) {
         log.info("delete menu with id {}", id);
         ValidationUtil.checkNotFoundWithId(menuRepository.delete(id), id);
     }
 
+    @CacheEvict(value = "menus", allEntries = true)
     public void setVotes(int id, int votes) {
         ValidationUtil.checkNotFoundWithId(menuRepository.updateVotes(votes, id), id);
     }
 
+    @CacheEvict(value = "menus", allEntries = true)
     @Transactional
     public void vote(int id, User user) {
         log.info("{} vote for menu with id={}", user, id);

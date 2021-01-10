@@ -8,6 +8,8 @@ import by.rexy.voting.util.ValidationUtil;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +31,7 @@ public class DishAdminRestController {
     private DataJpaDishRepository dishRepository;
     private DataJpaMenuRepository menuRepository;
 
+    @Cacheable("dishes")
     @GetMapping
     public List<Dish> getAll() {
         log.info("get all dishes");
@@ -41,6 +44,7 @@ public class DishAdminRestController {
         return ValidationUtil.checkNotFoundWithId(dishRepository.get(id), id);
     }
 
+    @CacheEvict(value = "dishes", allEntries = true)
     @PostMapping
     public ResponseEntity<Dish> createAndGetLocation(@RequestBody @Valid Dish dish,
                                                      @RequestParam int menuId) {
@@ -57,6 +61,7 @@ public class DishAdminRestController {
         return ResponseEntity.created(uriOfNewUser).body(createdDish);
     }
 
+    @CacheEvict(value = "dishes", allEntries = true)
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@RequestBody @Valid Dish dish, @PathVariable int id) {
@@ -68,6 +73,7 @@ public class DishAdminRestController {
         dishRepository.save(dish);
     }
 
+    @CacheEvict(value = "dishes", allEntries = true)
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id) {

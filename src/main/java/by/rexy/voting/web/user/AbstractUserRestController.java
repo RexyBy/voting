@@ -1,15 +1,15 @@
 package by.rexy.voting.web.user;
 
-import by.rexy.voting.model.Role;
 import by.rexy.voting.model.User;
 import by.rexy.voting.repository.DataJpaUserRepository;
 import by.rexy.voting.util.ValidationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.util.Assert;
 
 import java.util.List;
-import java.util.Set;
 
 public abstract class AbstractUserRestController {
     protected final Logger log = LoggerFactory.getLogger(getClass());
@@ -20,6 +20,7 @@ public abstract class AbstractUserRestController {
         this.repository = repository;
     }
 
+    @Cacheable("users")
     public List<User> getAll() {
         log.info("get all users");
         return repository.getAll();
@@ -30,6 +31,7 @@ public abstract class AbstractUserRestController {
         return ValidationUtil.checkNotFoundWithId(repository.get(id), id);
     }
 
+    @CacheEvict(value = "users", allEntries = true)
     public User create(User user) {
         log.info("create user {}", user);
         Assert.notNull(user, "user mustn't be null");
@@ -37,6 +39,7 @@ public abstract class AbstractUserRestController {
         return repository.save(user);
     }
 
+    @CacheEvict(value = "users", allEntries = true)
     public void update(User user, int id) {
         Assert.notNull(user, "user mustn't be null");
         ValidationUtil.assureIdConsistent(user, id);
@@ -44,6 +47,7 @@ public abstract class AbstractUserRestController {
         repository.save(user);
     }
 
+    @CacheEvict(value = "users", allEntries = true)
     public void delete(int id) {
         log.info("delete user with id {}", id);
         ValidationUtil.checkNotFoundWithId(repository.delete(id), id);
