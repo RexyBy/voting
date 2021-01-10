@@ -57,7 +57,7 @@ public class MenuAdminRestController extends AbstractMenuController {
     @Override
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@RequestBody Menu menu, @PathVariable int id) {
+    public void update(@Valid @RequestBody Menu menu, @PathVariable int id) {
         super.update(menu, id);
     }
 

@@ -37,7 +37,7 @@ The REST API for voting application where users can vote where to have a lunch t
 --data-raw '{
 "name": "NewAdmin",
 "email": "newAdmin@yanxe.ru",
-"password": "pass",
+"password": "password",
 "roles": ["USER", "ADMIN"]
 }'`
 
@@ -47,8 +47,8 @@ The REST API for voting application where users can vote where to have a lunch t
 --header 'Content-Type: application/json' \
 --data-raw '{
 "name": "NewAdmin",
-"email": "newAdmin@yanxe.ru",
-"password": "pass",
+"email": "updated@yanxe.ru",
+"password": "password",
 "roles": ["USER", "ADMIN"]
 }'`
 
@@ -68,7 +68,7 @@ The REST API for voting application where users can vote where to have a lunch t
 "id": 100003,
 "name": "user",
 "email": "user@yan.ru",
-"password": "{noop}password",
+"password": "password",
 "roles": ["USER", "ADMIN"]
 }'`
 
@@ -78,7 +78,7 @@ The REST API for voting application where users can vote where to have a lunch t
 --data-raw '{
 "name": "NewAdmin",
 "email": "newAdmin@yanxe.ru",
-"password": "pass",
+"password": "password",
 "roles": ["USER", "ADMIN"]
 }'`
 
@@ -138,8 +138,8 @@ The REST API for voting application where users can vote where to have a lunch t
 `curl --location --request GET 'localhost:8080/rest/profile/restaurant/menu/history?restaurantId=100001' \
 --header 'Authorization: Basic dXNlckB5YW5kZXgucnU6cGFzc3dvcmQ='`
 
-#### vote for menu 100007
-`curl --location --request PATCH 'localhost:8080/rest/profile/restaurant/menu/100007' \
+#### vote for menu 100005
+`curl --location --request PATCH 'localhost:8080/rest/profile/restaurant/menu/100005' \
 --header 'Authorization: Basic dXNlckB5YW5kZXgucnU6cGFzc3dvcmQ='`
 
 #### get all menus

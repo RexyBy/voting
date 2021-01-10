@@ -11,6 +11,8 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -25,7 +27,6 @@ public class Menu extends AbstractEntity {
     @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonBackReference
-    @NotNull
     private Restaurant restaurant;
 
     @Column(name = "date", nullable = false)
@@ -34,6 +35,7 @@ public class Menu extends AbstractEntity {
 
     @Column(name = "votes", nullable = false)
     @NotNull
+    @PositiveOrZero
     private Integer votes;
 
     @OneToMany(mappedBy = "menu", fetch = FetchType.EAGER)

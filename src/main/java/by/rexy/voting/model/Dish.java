@@ -9,6 +9,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -23,6 +24,7 @@ public class Dish extends AbstractEntity {
 
     @Column(name = "price", nullable = false)
     @NotNull
+    @Positive
     private Long price;         //price in cents
 
     @ManyToOne

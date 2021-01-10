@@ -59,7 +59,7 @@ public class DishAdminRestController {
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@RequestBody Dish dish, @PathVariable int id) {
+    public void update(@RequestBody @Valid Dish dish, @PathVariable int id) {
         log.info("update menu with id {}", id);
         Assert.notNull(dish, "dish mustn't be null");
         ValidationUtil.assureIdConsistent(dish, id);

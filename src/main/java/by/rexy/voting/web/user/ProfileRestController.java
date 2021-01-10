@@ -33,7 +33,7 @@ public class ProfileRestController extends AbstractUserRestController {
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@RequestBody @Valid UserTo userTo) {
+    public void update(@Valid @RequestBody UserTo userTo) {
         User user = new User(userTo);
         AuthUser authUser = SecurityUtil.safeGet();
         ValidationUtil.assureIdConsistent(user, authUser.id());
