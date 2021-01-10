@@ -4,15 +4,18 @@ import by.rexy.voting.model.AbstractEntity;
 import by.rexy.voting.model.Menu;
 import by.rexy.voting.model.Restaurant;
 import by.rexy.voting.model.User;
-import by.rexy.voting.util.exceptions.VoteException;
+import by.rexy.voting.util.exceptions.ErrorType;
 import by.rexy.voting.util.exceptions.NotFoundException;
+import by.rexy.voting.util.exceptions.VoteException;
+import org.slf4j.Logger;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class ValidationUtil {
-    public static LocalTime revoteTimeLimit = LocalTime.of(22, 0);
+    public static LocalTime revoteTimeLimit = LocalTime.of(11, 0);
 
     public static void checkNew(AbstractEntity entity) {
         if (!entity.isNew())
@@ -46,10 +49,10 @@ public class ValidationUtil {
         if (lastTimeVoted != null
                 && lastTimeVoted.toLocalDate().equals(LocalDate.now())
                 && lastTimeVoted.toLocalTime().isAfter(revoteTimeLimit)) {
-            throw new VoteException(user + "has already voted today and can't re-vote.");
+            throw new VoteException("User with id=" + user.id() + " has already voted today and can't re-vote.");
         }
-        if (!menu.getDate().equals(LocalDate.now())){
-            throw new VoteException("User can't vote for menu with previous date=" + menu.getDate());
+        if (!menu.getDate().equals(LocalDate.now())) {
+            throw new VoteException("User with id=" + user.id() + " can't vote for menu with previous date=" + menu.getDate());
         }
     }
 
@@ -60,5 +63,30 @@ public class ValidationUtil {
         } else if (entity.getId() != id) {
             throw new IllegalArgumentException(entity + " must be with id=" + id);
         }
+    }
+
+    //  http://stackoverflow.com/a/28565320/548473
+    public static Throwable getRootCause(Throwable t) {
+        Throwable result = t;
+        Throwable cause;
+
+        while (null != (cause = result.getCause()) && (result != cause)) {
+            result = cause;
+        }
+        return result;
+    }
+
+    public static String getMessage(Throwable e) {
+        return e.getLocalizedMessage() != null ? e.getLocalizedMessage() : e.getClass().getName();
+    }
+
+    public static Throwable logAndGetRootCause(Logger log, HttpServletRequest req, Exception e, boolean logStackTrace, ErrorType errorType) {
+        Throwable rootCause = ValidationUtil.getRootCause(e);
+        if (logStackTrace) {
+            log.error(errorType + " at request " + req.getRequestURL(), rootCause);
+        } else {
+            log.warn("{} at request  {}: {}", errorType, req.getRequestURL(), rootCause.toString());
+        }
+        return rootCause;
     }
 }
