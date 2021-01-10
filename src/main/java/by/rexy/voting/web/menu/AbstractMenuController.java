@@ -89,7 +89,8 @@ public abstract class AbstractMenuController {
     @Transactional
     public void vote(int id, User user) {
         log.info("{} vote for menu with id={}", user, id);
-        ValidationUtil.canVote(user);
+        Menu votedMenu = get(id);
+        ValidationUtil.canVote(user, votedMenu);
         LocalDateTime lastTimeVoted = user.getLastTimeVoted();
         Restaurant restaurant = ValidationUtil.checkNotFoundRestaurantWithMenuId(restaurantRepository.getOneByMenuId(id), id);
         if (lastTimeVoted != null

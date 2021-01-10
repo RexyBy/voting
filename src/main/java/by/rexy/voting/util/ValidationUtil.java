@@ -1,9 +1,10 @@
 package by.rexy.voting.util;
 
 import by.rexy.voting.model.AbstractEntity;
+import by.rexy.voting.model.Menu;
 import by.rexy.voting.model.Restaurant;
 import by.rexy.voting.model.User;
-import by.rexy.voting.util.exceptions.AlreadyVotedException;
+import by.rexy.voting.util.exceptions.VoteException;
 import by.rexy.voting.util.exceptions.NotFoundException;
 
 import java.time.LocalDate;
@@ -40,12 +41,15 @@ public class ValidationUtil {
         }
     }
 
-    public static void canVote(User user) {
+    public static void canVote(User user, Menu menu) {
         LocalDateTime lastTimeVoted = user.getLastTimeVoted();
         if (lastTimeVoted != null
                 && lastTimeVoted.toLocalDate().equals(LocalDate.now())
                 && lastTimeVoted.toLocalTime().isAfter(revoteTimeLimit)) {
-            throw new AlreadyVotedException(user + "has already voted today and can't re-vote.");
+            throw new VoteException(user + "has already voted today and can't re-vote.");
+        }
+        if (!menu.getDate().equals(LocalDate.now())){
+            throw new VoteException("User can't vote for menu with previous date=" + menu.getDate());
         }
     }
 
