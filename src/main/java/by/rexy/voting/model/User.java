@@ -1,6 +1,9 @@
 package by.rexy.voting.model;
 
 import by.rexy.voting.to.UserTo;
+import by.rexy.voting.util.JsonDeserializers;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.*;
 
 import javax.persistence.*;
@@ -33,6 +36,8 @@ public class User extends AbstractEntity {
     @Column(name = "password", nullable = false)
     @NotBlank
     @Size(min = 8, max = 100)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonDeserialize(using = JsonDeserializers.PasswordDeserializer.class)
     private String password;
 
     @Enumerated(EnumType.STRING)

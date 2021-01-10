@@ -1,6 +1,7 @@
 package by.rexy.voting.web.user;
 
 import by.rexy.voting.AuthUser;
+import by.rexy.voting.model.Role;
 import by.rexy.voting.model.User;
 import by.rexy.voting.repository.DataJpaUserRepository;
 import by.rexy.voting.to.UserTo;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.Set;
 
 @RestController
 @RequestMapping(value = ProfileRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -46,9 +48,9 @@ public class ProfileRestController extends AbstractUserRestController {
     }
 
     @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> register(@RequestBody @Valid UserTo userTo){
-        userTo.setRoles(null);
-        User createdUser = super.create(new User(userTo));
+    public ResponseEntity<User> register(@RequestBody @Valid User user){
+        user.setRoles(Set.of(Role.USER));
+        User createdUser = super.create(user);
         URI uriOfNewUser = ServletUriComponentsBuilder.fromCurrentRequestUri()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(createdUser.getId())
