@@ -19,7 +19,8 @@ VALUES ('User', 'user@yandex.ru', '{noop}password', '2020-12-22 15:00', 100002),
 
 INSERT INTO user_roles (role, user_id)
 VALUES ('USER', 100003),
-       ('ADMIN', 100004);
+       ('ADMIN', 100004),
+       ('USER', 100004);
 
 INSERT INTO menu (restaurant_id, date, votes)
 VALUES ('100000', current_date, 0),
