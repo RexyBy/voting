@@ -20,19 +20,19 @@ import java.util.Set;
 @RestController
 @RequestMapping(value = ProfileRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class ProfileRestController extends AbstractUserRestController {
-    static final String REST_URL = "/rest/profile";
+    static final String REST_URL = "/rest";
 
     public ProfileRestController(DataJpaUserRepository repository) {
         super(repository);
     }
 
-    @GetMapping
+    @GetMapping("/profile")
     public User get(@AuthenticationPrincipal AuthUser authUser) {
         log.info("get {}", authUser);
         return repository.get(authUser.id());
     }
 
-    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/profile", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@Valid @RequestBody User user) {
         AuthUser authUser = SecurityUtil.safeGet();
@@ -45,7 +45,7 @@ public class ProfileRestController extends AbstractUserRestController {
         }
     }
 
-    @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/register", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<User> register(@RequestBody @Valid User user) {
         user.setRoles(Set.of(Role.USER));
         User createdUser = super.create(user);
@@ -56,7 +56,7 @@ public class ProfileRestController extends AbstractUserRestController {
         return ResponseEntity.created(uriOfNewUser).body(createdUser);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/profile")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete() {
         super.delete(SecurityUtil.getAuthUserId());

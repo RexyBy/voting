@@ -20,17 +20,17 @@ CREATE TABLE users
     password            VARCHAR(255) NOT NULL,
     last_time_voted     TIMESTAMP,
     voted_restaurant_id INTEGER,
-    FOREIGN KEY (voted_restaurant_id) REFERENCES RESTAURANTS (id)
+    FOREIGN KEY (voted_restaurant_id) REFERENCES restaurants (id)
 );
 CREATE UNIQUE INDEX users_unique_email_idx
-    ON USERS (email);
+    ON users (email);
 
 CREATE TABLE user_roles
 (
     user_id INTEGER      NOT NULL,
     role    VARCHAR(255) NOT NULL,
     CONSTRAINT user_roles_idx UNIQUE (user_id, role),
-    FOREIGN KEY (user_id) REFERENCES USERS (id) ON DELETE CASCADE
+    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
 
 CREATE TABLE menu
