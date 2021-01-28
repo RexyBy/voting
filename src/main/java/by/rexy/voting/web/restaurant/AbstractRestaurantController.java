@@ -21,9 +21,10 @@ public abstract class AbstractRestaurantController {
     private RestaurantRepository repository;
 
     @Cacheable("restaurants")
-    public List<Restaurant> getAll() {
+    public List<Restaurant> getAll(LocalDate startDate, LocalDate endDate) {
         log.info("get all restaurants");
-        return repository.findAll();
+        ValidationUtil.checkPeriod(startDate, endDate);
+        return repository.getAllBetweenDates(startDate, endDate);
     }
 
     @Cacheable("restaurants")

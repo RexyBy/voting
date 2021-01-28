@@ -2,11 +2,9 @@ package by.rexy.voting.web.restaurant;
 
 import by.rexy.voting.model.Restaurant;
 import by.rexy.voting.repository.RestaurantRepository;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -31,8 +29,9 @@ public class RestaurantProfileRestController extends AbstractRestaurantControlle
     }
 
     @GetMapping("/history")
-    public List<Restaurant> getAll() {
-        return super.getAll();
+    public List<Restaurant> getAll(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+                                   @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+        return super.getAll(startDate, endDate);
     }
 
     @GetMapping("/history/{id}")

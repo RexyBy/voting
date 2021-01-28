@@ -13,9 +13,23 @@ import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 
 public class ValidationUtil {
     public static LocalTime revoteTimeLimit = LocalTime.of(15, 0);
+    public static final long HISTORY_LIMIT_DAYS = 90;
+
+    public static void checkPeriod(LocalDate startDate, LocalDate endDate) {
+        if (startDate == null || endDate == null) {
+            throw new IllegalArgumentException("Start and end dates are required and can't be null.");
+        }
+        if (startDate.isAfter(endDate)) {
+            throw new IllegalArgumentException("Start date must be before end date.");
+        }
+        if (ChronoUnit.DAYS.between(startDate, endDate) > HISTORY_LIMIT_DAYS) {
+            throw new IllegalArgumentException("The period between start and end dates must be less or equals than 90 days.");
+        }
+    }
 
     public static void checkNew(AbstractEntity entity) {
         if (!entity.isNew())

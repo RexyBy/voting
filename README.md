@@ -19,18 +19,20 @@ The REST API for voting application where users can vote where to have a lunch t
 * H2 database
 * Maven
 
-
 ### CURL examples
 
 #### get all users
+
 `curl --location --request GET 'localhost:8080/rest/admin/users' \
 --header 'Authorization: Basic YWRtaW5AZ21haWwuY29tOmFkbWlu'`
 
 #### get user 100003
+
 `curl --location --request GET 'localhost:8080/rest/admin/users/100003' \
 --header 'Authorization: Basic YWRtaW5AZ21haWwuY29tOmFkbWlu'`
 
 #### create user
+
 `curl --location --request POST 'localhost:8080/rest/admin/users' \
 --header 'Authorization: Basic YWRtaW5AZ21haWwuY29tOmFkbWlu' \
 --header 'Content-Type: application/json' \
@@ -42,6 +44,7 @@ The REST API for voting application where users can vote where to have a lunch t
 }'`
 
 #### update user 100003
+
 `curl --location --request PUT 'localhost:8080/rest/admin/users/100003' \
 --header 'Authorization: Basic YWRtaW5AZ21haWwuY29tOmFkbWlu' \
 --header 'Content-Type: application/json' \
@@ -53,14 +56,17 @@ The REST API for voting application where users can vote where to have a lunch t
 }'`
 
 #### delete user 100003
+
 `curl --location --request DELETE 'localhost:8080/rest/admin/users/100003' \
 --header 'Authorization: Basic YWRtaW5AZ21haWwuY29tOmFkbWlu'`
 
 #### get user by himself
+
 `curl --location --request GET 'localhost:8080/rest/profile' \
 --header 'Authorization: Basic dXNlckB5YW5kZXgucnU6cGFzc3dvcmQ='`
 
 #### update user by himself
+
 `curl --location --request PUT 'localhost:8080/rest/profile' \
 --header 'Authorization: Basic dXNlckB5YW5kZXgucnU6cGFzc3dvcmQ=' \
 --header 'Content-Type: application/json' \
@@ -73,6 +79,7 @@ The REST API for voting application where users can vote where to have a lunch t
 }'`
 
 #### register user by himself
+
 `curl --location --request POST 'localhost:8080/rest/profile/register' \
 --header 'Content-Type: application/json' \
 --data-raw '{
@@ -83,34 +90,42 @@ The REST API for voting application where users can vote where to have a lunch t
 }'`
 
 #### delete user by himself
+
 `curl --location --request DELETE 'localhost:8080/rest/profile' \
 --header 'Authorization: Basic dXNlckB5YW5kZXgucnU6cGFzc3dvcmQ='`
 
 #### get all restaurants with a menu for current day by user
+
 `curl --location --request GET 'localhost:8080/rest/profile/restaurants' \
 --header 'Authorization: Basic dXNlckB5YW5kZXgucnU6cGFzc3dvcmQ='`
 
 #### get  restaurant 100002 with a menu for current day by user
+
 `curl --location --request GET 'localhost:8080/rest/profile/restaurants/100002' \
 --header 'Authorization: Basic dXNlckB5YW5kZXgucnU6cGFzc3dvcmQ='`
 
-#### get all restaurants history
-`curl --location --request GET 'localhost:8080/rest/profile/restaurants/history' \
+#### get all restaurants history from 2020-12-23 to 2021-02-28
+
+`curl --location --request GET 'localhost:8080/rest/profile/restaurants/history?startDate=2020-12-23&endDate=2021-02-28' \
 --header 'Authorization: Basic dXNlckB5YW5kZXgucnU6cGFzc3dvcmQ='`
 
 #### get restaurant 100002 history
+
 `curl --location --request GET 'localhost:8080/rest/profile/restaurants/history/100002' \
 --header 'Authorization: Basic dXNlckB5YW5kZXgucnU6cGFzc3dvcmQ='`
 
 #### get all restaurants with a menu on 2020-12-23
+
 `curl --location --request GET 'localhost:8080/rest/admin/restaurants?date=2020-12-23' \
 --header 'Authorization: Basic YWRtaW5AZ21haWwuY29tOmFkbWlu'`
 
 #### get restaurant 100002 with a menu on 2020-12-23
+
 `curl --location --request GET 'localhost:8080/rest/admin/restaurants/100002?date=2020-12-23' \
 --header 'Authorization: Basic YWRtaW5AZ21haWwuY29tOmFkbWlu'`
 
 #### create restaurant
+
 `curl --location --request POST 'localhost:8080/rest/admin/restaurants' \
 --header 'Authorization: Basic YWRtaW5AZ21haWwuY29tOmFkbWlu' \
 --header 'Content-Type: application/json' \
@@ -119,6 +134,7 @@ The REST API for voting application where users can vote where to have a lunch t
 }'`
 
 #### update restaurant 100002
+
 `curl --location --request PUT 'localhost:8080/rest/admin/restaurants/100002' \
 --header 'Authorization: Basic YWRtaW5AZ21haWwuY29tOmFkbWlu' \
 --header 'Content-Type: application/json' \
@@ -127,85 +143,97 @@ The REST API for voting application where users can vote where to have a lunch t
 }'`
 
 #### delete restaurant 100001
+
 `curl --location --request DELETE 'localhost:8080/rest/admin/restaurants/100001' \
 --header 'Authorization: Basic YWRtaW5AZ21haWwuY29tOmFkbWlu'`
 
 #### get an up-to-date menu for restaurant 100001
+
 `curl --location --request GET 'localhost:8080/rest/profile/restaurant/menu?restaurantId=100001' \
 --header 'Authorization: Basic dXNlckB5YW5kZXgucnU6cGFzc3dvcmQ='`
 
 #### get all menus for restaurant 100001
+
 `curl --location --request GET 'localhost:8080/rest/profile/restaurant/menu/history?restaurantId=100001' \
 --header 'Authorization: Basic dXNlckB5YW5kZXgucnU6cGFzc3dvcmQ='`
 
 #### vote for menu 100005
+
 `curl --location --request PATCH 'localhost:8080/rest/profile/restaurant/menu/100005' \
 --header 'Authorization: Basic dXNlckB5YW5kZXgucnU6cGFzc3dvcmQ='`
 
 #### get all menus
+
 `curl --location --request GET 'localhost:8080/rest/admin/restaurant/menu' \
 --header 'Authorization: Basic YWRtaW5AZ21haWwuY29tOmFkbWlu'`
 
 #### get all menus on 2020-12-22
+
 `curl --location --request GET 'localhost:8080/rest/admin/restaurant/menu?date=2020-12-22' \
 --header 'Authorization: Basic YWRtaW5AZ21haWwuY29tOmFkbWlu'`
 
 #### get menu 100006
+
 `curl --location --request GET 'localhost:8080/rest/admin/restaurant/menu/100006' \
 --header 'Authorization: Basic YWRtaW5AZ21haWwuY29tOmFkbWlu'`
 
 #### create a menu for restaurant 100000
+
 `curl --location --request POST 'localhost:8080/rest/admin/restaurant/menu?restaurantId=100000' \
 --header 'Authorization: Basic YWRtaW5AZ21haWwuY29tOmFkbWlu' \
 --header 'Content-Type: application/json' \
 --data-raw '   {    
 "date": "2020-12-23",
-"votes": 0
-}'`
+"votes": 0 }'`
 
 #### update menu 100005
+
 `curl --location --request PUT 'localhost:8080/rest/admin/restaurant/menu/100005' \
 --header 'Authorization: Basic YWRtaW5AZ21haWwuY29tOmFkbWlu' \
 --header 'Content-Type: application/json' \
 --data-raw '   {    
 "date": "2021-01-08",
-"votes": 5
-}'`
+"votes": 5 }'`
 
 #### delete menu 100005
+
 `curl --location --request DELETE 'localhost:8080/rest/admin/restaurant/menu/100005' \
 --header 'Authorization: Basic YWRtaW5AZ21haWwuY29tOmFkbWlu'`
 
 #### set votes amount for menu 100005
+
 `curl --location --request PATCH 'localhost:8080/rest/admin/restaurant/menu/100005?votes=5' \
 --header 'Authorization: Basic YWRtaW5AZ21haWwuY29tOmFkbWlu'`
 
 #### get all dishes
+
 `curl --location --request GET 'localhost:8080/rest/admin/restaurant/menu/dish' \
 --header 'Authorization: Basic YWRtaW5AZ21haWwuY29tOmFkbWlu'`
 
 #### get dish 100023
+
 `curl --location --request GET 'localhost:8080/rest/admin/restaurant/menu/dish/100023' \
 --header 'Authorization: Basic YWRtaW5AZ21haWwuY29tOmFkbWlu'`
 
 #### create a dish for menu 100005
+
 `curl --location --request POST 'localhost:8080/rest/admin/restaurant/menu/dish?menuId=100005' \
 --header 'Authorization: Basic YWRtaW5AZ21haWwuY29tOmFkbWlu' \
 --header 'Content-Type: application/json' \
 --data-raw '{
 "name": "New dish",
-"price": 900
-}'`
+"price": 900 }'`
 
 #### update dish 100011
+
 `curl --location --request PUT 'localhost:8080/rest/admin/restaurant/menu/dish/100011' \
 --header 'Authorization: Basic YWRtaW5AZ21haWwuY29tOmFkbWlu' \
 --header 'Content-Type: application/json' \
 --data-raw '{
 "name": "Updated dish",
-"price": 5000
-}'`
+"price": 5000 }'`
 
 #### delete dish 100011
+
 `curl --location --request DELETE 'localhost:8080/rest/admin/restaurant/menu/dish/100011' \
 --header 'Authorization: Basic YWRtaW5AZ21haWwuY29tOmFkbWlu'`

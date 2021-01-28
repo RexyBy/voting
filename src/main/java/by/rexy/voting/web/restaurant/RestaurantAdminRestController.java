@@ -35,8 +35,9 @@ public class RestaurantAdminRestController extends AbstractRestaurantController 
     }
 
     @GetMapping("/history")
-    public List<Restaurant> getAll() {
-        return super.getAll();
+    public List<Restaurant> getAll(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+                                   @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+        return super.getAll(startDate, endDate);
     }
 
     @GetMapping("/history/{id}")

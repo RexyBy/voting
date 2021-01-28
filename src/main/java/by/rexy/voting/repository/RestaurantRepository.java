@@ -24,6 +24,11 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Integer>
     List<Restaurant> getAllForDate(@Param("date") LocalDate date);
 
     @EntityGraph(attributePaths = {"menus"}, type = EntityGraph.EntityGraphType.LOAD)
+    @Query("SELECT r FROM Restaurant r JOIN FETCH r.menus m WHERE m.date >= :startDate AND m.date <= :endDate")
+    List<Restaurant> getAllBetweenDates(@Param("startDate") LocalDate startDate,
+                                        @Param("endDate") LocalDate endDate);
+
+    @EntityGraph(attributePaths = {"menus"}, type = EntityGraph.EntityGraphType.LOAD)
     @Query("SELECT r FROM Restaurant r JOIN FETCH r.menus m WHERE r.id=:id AND m.date=:date")
     Restaurant getOneForDate(@Param("id") int id, @Param("date") LocalDate date);
 
