@@ -1,9 +1,9 @@
 package by.rexy.voting.web.menu;
 
 import by.rexy.voting.model.Menu;
-import by.rexy.voting.repository.DataJpaMenuRepository;
-import by.rexy.voting.repository.DataJpaRestaurantRepository;
-import by.rexy.voting.repository.DataJpaUserRepository;
+import by.rexy.voting.repository.MenuRepository;
+import by.rexy.voting.repository.RestaurantRepository;
+import by.rexy.voting.repository.UserRepository;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,9 +21,9 @@ import java.util.List;
 public class MenuAdminRestController extends AbstractMenuController {
     static final String REST_URL = "/rest/admin/restaurant/menu";
 
-    public MenuAdminRestController(DataJpaMenuRepository menuRepository,
-                                   DataJpaRestaurantRepository restaurantRepository,
-                                   DataJpaUserRepository userRepository) {
+    public MenuAdminRestController(MenuRepository menuRepository,
+                                   RestaurantRepository restaurantRepository,
+                                   UserRepository userRepository) {
         super(menuRepository, restaurantRepository, userRepository);
     }
 

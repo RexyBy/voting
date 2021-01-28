@@ -3,7 +3,7 @@ package by.rexy.voting.web.user;
 import by.rexy.voting.AuthUser;
 import by.rexy.voting.model.Role;
 import by.rexy.voting.model.User;
-import by.rexy.voting.repository.DataJpaUserRepository;
+import by.rexy.voting.repository.UserRepository;
 import by.rexy.voting.util.SecurityUtil;
 import by.rexy.voting.util.ValidationUtil;
 import org.springframework.http.HttpStatus;
@@ -22,14 +22,14 @@ import java.util.Set;
 public class ProfileRestController extends AbstractUserRestController {
     static final String REST_URL = "/rest";
 
-    public ProfileRestController(DataJpaUserRepository repository) {
+    public ProfileRestController(UserRepository repository) {
         super(repository);
     }
 
     @GetMapping("/profile")
     public User get(@AuthenticationPrincipal AuthUser authUser) {
         log.info("get {}", authUser);
-        return repository.get(authUser.id());
+        return super.get(authUser.id());
     }
 
     @PutMapping(value = "/profile", consumes = MediaType.APPLICATION_JSON_VALUE)

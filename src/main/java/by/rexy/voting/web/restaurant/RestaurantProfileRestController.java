@@ -1,7 +1,7 @@
 package by.rexy.voting.web.restaurant;
 
 import by.rexy.voting.model.Restaurant;
-import by.rexy.voting.repository.DataJpaRestaurantRepository;
+import by.rexy.voting.repository.RestaurantRepository;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,7 +16,7 @@ import java.util.List;
 public class RestaurantProfileRestController extends AbstractRestaurantController {
     static final String REST_URL = "/rest/profile/restaurants";
 
-    public RestaurantProfileRestController(DataJpaRestaurantRepository repository) {
+    public RestaurantProfileRestController(RestaurantRepository repository) {
         super(repository);
     }
 

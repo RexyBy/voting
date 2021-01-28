@@ -1,7 +1,7 @@
 package by.rexy.voting.web.restaurant;
 
 import by.rexy.voting.model.Restaurant;
-import by.rexy.voting.repository.DataJpaRestaurantRepository;
+import by.rexy.voting.repository.RestaurantRepository;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -19,7 +19,7 @@ import java.util.List;
 public class RestaurantAdminRestController extends AbstractRestaurantController {
     static final String REST_URL = "/rest/admin/restaurants";
 
-    public RestaurantAdminRestController(DataJpaRestaurantRepository repository) {
+    public RestaurantAdminRestController(RestaurantRepository repository) {
         super(repository);
     }
 

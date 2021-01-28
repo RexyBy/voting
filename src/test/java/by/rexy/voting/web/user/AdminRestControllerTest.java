@@ -2,7 +2,7 @@ package by.rexy.voting.web.user;
 
 import by.rexy.voting.model.Role;
 import by.rexy.voting.model.User;
-import by.rexy.voting.repository.DataJpaUserRepository;
+import by.rexy.voting.repository.UserRepository;
 import by.rexy.voting.util.exceptions.ErrorType;
 import by.rexy.voting.web.AbstractRestControllerTest;
 import by.rexy.voting.web.TestUtil;
@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class AdminRestControllerTest extends AbstractRestControllerTest {
 
     @Autowired
-    private DataJpaUserRepository repository;
+    private UserRepository repository;
 
     @Test
     void getAll() throws Exception {

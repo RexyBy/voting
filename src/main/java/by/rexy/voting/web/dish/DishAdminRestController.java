@@ -2,8 +2,8 @@ package by.rexy.voting.web.dish;
 
 import by.rexy.voting.model.Dish;
 import by.rexy.voting.model.Menu;
-import by.rexy.voting.repository.DataJpaDishRepository;
-import by.rexy.voting.repository.DataJpaMenuRepository;
+import by.rexy.voting.repository.DishRepository;
+import by.rexy.voting.repository.MenuRepository;
 import by.rexy.voting.util.ValidationUtil;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -28,20 +28,20 @@ public class DishAdminRestController {
     static final String REST_URL = "/rest/admin/restaurant/menu/dish";
     private final Logger log = LoggerFactory.getLogger(getClass());
 
-    private DataJpaDishRepository dishRepository;
-    private DataJpaMenuRepository menuRepository;
+    private DishRepository dishRepository;
+    private MenuRepository menuRepository;
 
     @Cacheable("dishes")
     @GetMapping
     public List<Dish> getAll() {
         log.info("get all dishes");
-        return dishRepository.getAll();
+        return dishRepository.findAll();
     }
 
     @GetMapping("/{id}")
     public Dish get(@PathVariable int id) {
         log.info("get dish with id={}", id);
-        return ValidationUtil.checkNotFoundWithId(dishRepository.get(id), id);
+        return ValidationUtil.checkNotFoundWithId(dishRepository.findById(id).orElse(null), id);
     }
 
     @CacheEvict(value = "dishes", allEntries = true)
@@ -51,7 +51,7 @@ public class DishAdminRestController {
         log.info("create dish {}", dish);
         Assert.notNull(dish, "dish mustn't be null");
         ValidationUtil.checkNew(dish);
-        Menu menu = menuRepository.getProxy(menuId);
+        Menu menu = menuRepository.getOne(menuId);
         dish.setMenu(menu);
         Dish createdDish = dishRepository.save(dish);
         URI uriOfNewUser = ServletUriComponentsBuilder.fromCurrentRequestUri()
@@ -68,7 +68,7 @@ public class DishAdminRestController {
         log.info("update menu with id {}", id);
         Assert.notNull(dish, "dish mustn't be null");
         ValidationUtil.assureIdConsistent(dish, id);
-        Dish oldDish = dishRepository.get(id);
+        Dish oldDish = dishRepository.findById(id).get();
         dish.setMenu(oldDish.getMenu());
         dishRepository.save(dish);
     }

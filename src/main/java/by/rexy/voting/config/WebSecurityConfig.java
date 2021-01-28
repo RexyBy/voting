@@ -3,7 +3,7 @@ package by.rexy.voting.config;
 import by.rexy.voting.AuthUser;
 import by.rexy.voting.model.Role;
 import by.rexy.voting.model.User;
-import by.rexy.voting.repository.DataJpaUserRepository;
+import by.rexy.voting.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,13 +26,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     public static final PasswordEncoder PASSWORD_ENCODER = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-    private final DataJpaUserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Bean
     public UserDetailsService userDetailsService() {
         return email -> {
             log.debug("Authenticating '{}'", email);
-            User user = userRepository.findByEmailIgnoreCase(email);
+            User user = userRepository.findByEmailIgnoreCase(email).orElse(null);
             if (user == null) {
                 throw new UsernameNotFoundException("User '" + email + "' was not found");
             }

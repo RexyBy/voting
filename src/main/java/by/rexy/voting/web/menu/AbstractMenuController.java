@@ -3,9 +3,9 @@ package by.rexy.voting.web.menu;
 import by.rexy.voting.model.Menu;
 import by.rexy.voting.model.Restaurant;
 import by.rexy.voting.model.User;
-import by.rexy.voting.repository.DataJpaMenuRepository;
-import by.rexy.voting.repository.DataJpaRestaurantRepository;
-import by.rexy.voting.repository.DataJpaUserRepository;
+import by.rexy.voting.repository.MenuRepository;
+import by.rexy.voting.repository.RestaurantRepository;
+import by.rexy.voting.repository.UserRepository;
 import by.rexy.voting.util.ValidationUtil;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -23,14 +23,14 @@ import java.util.List;
 public abstract class AbstractMenuController {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
-    private DataJpaMenuRepository menuRepository;
-    private DataJpaRestaurantRepository restaurantRepository;
-    private DataJpaUserRepository userRepository;
+    private MenuRepository menuRepository;
+    private RestaurantRepository restaurantRepository;
+    private UserRepository userRepository;
 
     @Cacheable("menus")
     public List<Menu> getAll() {
         log.info("get all menus");
-        return menuRepository.getAll();
+        return menuRepository.findAll();
     }
 
     @Cacheable("menus")
@@ -53,7 +53,7 @@ public abstract class AbstractMenuController {
 
     public Menu get(int id) {
         log.info("get menu with id {}", id);
-        return ValidationUtil.checkNotFoundWithId(menuRepository.get(id), id);
+        return ValidationUtil.checkNotFoundWithId(menuRepository.findById(id).orElse(null), id);
     }
 
     @CacheEvict(value = "menus", allEntries = true)
@@ -62,7 +62,7 @@ public abstract class AbstractMenuController {
         log.info("create menu {}", menu);
         Assert.notNull(menu, "menu mustn't be null");
         ValidationUtil.checkNew(menu);
-        Restaurant restaurant = ValidationUtil.checkNotFoundWithId(restaurantRepository.getProxy(restaurantId), restaurantId);
+        Restaurant restaurant = ValidationUtil.checkNotFoundWithId(restaurantRepository.getOne(restaurantId), restaurantId);
         menu.setRestaurant(restaurant);
         return menuRepository.save(menu);
     }
@@ -73,7 +73,7 @@ public abstract class AbstractMenuController {
         log.info("update menu with id {}", id);
         Assert.notNull(menu, "menu mustn't be null");
         ValidationUtil.assureIdConsistent(menu, id);
-        Menu oldMenu = menuRepository.getProxy(id);
+        Menu oldMenu = menuRepository.getOne(id);
         menu.setRestaurant(oldMenu.getRestaurant());
         menu.setDishes(oldMenu.getDishes());
         menuRepository.save(menu);
@@ -97,17 +97,14 @@ public abstract class AbstractMenuController {
         Menu votedMenu = get(id);
         ValidationUtil.canVote(user, votedMenu);
         LocalDateTime lastTimeVoted = user.getLastTimeVoted();
-        Restaurant restaurant = ValidationUtil.checkNotFoundRestaurantWithMenuId(restaurantRepository.getOneByMenuId(id), id);
+        Restaurant restaurant = ValidationUtil.checkNotFoundRestaurantWithMenuId(restaurantRepository.getByMenuId(id), id);
         if (lastTimeVoted != null
                 && lastTimeVoted.toLocalDate().equals(LocalDate.now())
                 && lastTimeVoted.toLocalTime().isBefore(ValidationUtil.revoteTimeLimit)) {
-            Menu lastVotedMenu = user.getVotedRestaurant()
+            restaurantRepository.get(user.getVotedRestaurant().getId())
                     .getMenus().stream()
                     .filter(m -> m.getDate().equals(LocalDate.now()))
-                    .findFirst().orElse(null);
-            if (lastVotedMenu != null) {
-                menuRepository.withdrawVote(lastVotedMenu.id());
-            }
+                    .findFirst().ifPresent(m -> menuRepository.withdrawVote(m.id()));
         }
         user.setLastTimeVoted(LocalDateTime.now());
         user.setVotedRestaurant(restaurant);

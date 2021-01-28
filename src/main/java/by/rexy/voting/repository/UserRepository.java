@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Transactional(readOnly = true)
-public interface CrudUserRepository extends JpaRepository<User, Integer> {
+public interface UserRepository extends JpaRepository<User, Integer> {
     @Transactional
     @Modifying
     @Query("DELETE FROM User u WHERE u.id=:id")
@@ -27,5 +27,5 @@ public interface CrudUserRepository extends JpaRepository<User, Integer> {
 
     @EntityGraph(attributePaths = {"votedRestaurant"}, type = EntityGraph.EntityGraphType.LOAD)
     @Query("SELECT u FROM User u WHERE u.id=:id")
-    User getOne(int id);
+    User get(int id);
 }

@@ -2,7 +2,7 @@ package by.rexy.voting.web.restaurant;
 
 
 import by.rexy.voting.model.Restaurant;
-import by.rexy.voting.repository.DataJpaRestaurantRepository;
+import by.rexy.voting.repository.RestaurantRepository;
 import by.rexy.voting.util.ValidationUtil;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -18,12 +18,12 @@ import java.util.List;
 public abstract class AbstractRestaurantController {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
-    private DataJpaRestaurantRepository repository;
+    private RestaurantRepository repository;
 
     @Cacheable("restaurants")
     public List<Restaurant> getAll() {
         log.info("get all restaurants");
-        return repository.getAll();
+        return repository.findAll();
     }
 
     @Cacheable("restaurants")

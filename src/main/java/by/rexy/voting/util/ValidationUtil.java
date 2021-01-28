@@ -15,15 +15,15 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class ValidationUtil {
-    public static LocalTime revoteTimeLimit = LocalTime.of(11, 0);
+    public static LocalTime revoteTimeLimit = LocalTime.of(15, 0);
 
     public static void checkNew(AbstractEntity entity) {
         if (!entity.isNew())
             throw new IllegalArgumentException(entity + " must be new.");
     }
 
-    public static void checkNotFoundWithId(boolean found, int id) {
-        checkNotFound(found, "id=" + id);
+    public static void checkNotFoundWithId(int affectedRows, int id) {
+        checkNotFound(affectedRows != 0, "id=" + id);
     }
 
     public static <T> T checkNotFoundWithId(T object, int id) {
@@ -36,6 +36,11 @@ public class ValidationUtil {
             throw new NotFoundException("Not found restaurant with menu with id=" + menuId);
         }
         return restaurant;
+    }
+
+    public static <T> T checkNotFound(T object, String msg) {
+        checkNotFound(object != null, msg);
+        return object;
     }
 
     public static void checkNotFound(boolean found, String msg) {

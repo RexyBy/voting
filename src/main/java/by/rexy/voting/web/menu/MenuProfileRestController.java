@@ -2,9 +2,9 @@ package by.rexy.voting.web.menu;
 
 import by.rexy.voting.AuthUser;
 import by.rexy.voting.model.Menu;
-import by.rexy.voting.repository.DataJpaMenuRepository;
-import by.rexy.voting.repository.DataJpaRestaurantRepository;
-import by.rexy.voting.repository.DataJpaUserRepository;
+import by.rexy.voting.repository.MenuRepository;
+import by.rexy.voting.repository.RestaurantRepository;
+import by.rexy.voting.repository.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,9 +18,9 @@ import java.util.List;
 public class MenuProfileRestController extends AbstractMenuController {
     static final String REST_URL = "/rest/profile/restaurant/menu";
 
-    public MenuProfileRestController(DataJpaMenuRepository menuRepository,
-                                     DataJpaRestaurantRepository restaurantRepository,
-                                     DataJpaUserRepository userRepository) {
+    public MenuProfileRestController(MenuRepository menuRepository,
+                                     RestaurantRepository restaurantRepository,
+                                     UserRepository userRepository) {
         super(menuRepository, restaurantRepository, userRepository);
     }
 

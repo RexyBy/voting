@@ -1,7 +1,7 @@
 package by.rexy.voting.web.user;
 
 import by.rexy.voting.model.User;
-import by.rexy.voting.repository.DataJpaUserRepository;
+import by.rexy.voting.repository.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +17,7 @@ import java.util.List;
 public class AdminRestController extends AbstractUserRestController {
     static final String REST_URL = "/rest/admin/users";
 
-    public AdminRestController(DataJpaUserRepository repository) {
+    public AdminRestController(UserRepository repository) {
         super(repository);
     }
 
@@ -31,6 +31,12 @@ public class AdminRestController extends AbstractUserRestController {
     @GetMapping("/{id}")
     public User get(@PathVariable int id) {
         return super.get(id);
+    }
+
+    @Override
+    @GetMapping("/by")
+    public User getByEmail(@RequestParam String email) {
+        return super.getByEmail(email);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)

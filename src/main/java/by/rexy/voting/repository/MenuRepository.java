@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Transactional(readOnly = true)
-public interface CrudMenuRepository extends JpaRepository<Menu, Integer> {
+public interface MenuRepository extends JpaRepository<Menu, Integer> {
     @Transactional
     @Modifying
     @Query("DELETE FROM Menu m WHERE m.id=:id")
