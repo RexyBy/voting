@@ -25,7 +25,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = DishAdminRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class DishAdminRestController {
-    static final String REST_URL = "/rest/admin/restaurant/menu/dish";
+    static final String REST_URL = "/rest/admin/restaurant/menu/dishes";
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     private DishRepository dishRepository;

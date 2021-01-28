@@ -19,7 +19,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = MenuAdminRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class MenuAdminRestController extends AbstractMenuController {
-    static final String REST_URL = "/rest/admin/restaurant/menu";
+    static final String REST_URL = "/rest/admin/restaurant/menus";
 
     public MenuAdminRestController(MenuRepository menuRepository,
                                    RestaurantRepository restaurantRepository,
